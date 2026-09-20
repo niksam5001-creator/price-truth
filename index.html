@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#4CAF50">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Price Truth — know the real price</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #4CAF50, #2e7d32); color: #fff; padding: 28px 20px; text-align: center; }
+  .header h1 { font-size: 26px; }
+  .header p { opacity: .9; margin-top: 6px; font-size: 14px; }
+  .install { display:none; margin: 10px 16px 0; padding: 10px; background: #fff3cd; border-radius: 8px; text-align:center; font-size: 14px; }
+  .install button { background: #4CAF50; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; margin-left: 8px; }
+  .card { background: #fff; margin: 16px; border-radius: 14px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  .card h2 { font-size: 16px; margin-bottom: 12px; color: #333; }
+  input[type=url] { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; }
+  input:focus { border-color: #4CAF50; outline: none; }
+  .btn { display: block; width: 100%; margin-top: 12px; padding: 15px; border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; }
+  .btn-green { background: #4CAF50; color: #fff; }
+  .btn-scan { background: #2196F3; color: #fff; }
+  .verdict { display: none; margin-top: 16px; padding: 16px; border-radius: 10px; }
+  .verdict.bad { background: #fff3cd; border-left: 5px solid #ffc107; }
+  .verdict.good { background: #d4edda; border-left: 5px solid #28a745; }
+  .verdict .big { font-size: 22px; font-weight: 700; }
+  .stores { margin-top: 12px; }
+  .stores div { background: #f8f9fa; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; font-size: 15px; }
+  .share { margin-top: 12px; background: #2196F3; color: #fff; }
+  .lang { text-align: center; padding: 10px; }
+  .lang button { background: none; border: 1px solid #ccc; border-radius: 6px; margin: 2px; padding: 4px 8px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>💰 Price Truth</h1>
+  <p id="tagline">Know the real price before you buy</p>
+</div>
+<div class="install" id="installBar">📲 <span id="installText">Install as app</span><button onclick="installApp()">Install</button></div>
+
+<div class="card">
+  <h2 id="lbl_link">Paste product link</h2>
+  <input type="url" id="link" placeholder="https://wildberries.ru/... или amazon.com/...">
+  <button class="btn btn-green" id="check" onclick="checkLink()">Check price</button>
+  <div class="verdict" id="verdict"></div>
+</div>
+
+<div class="card">
+  <h2 id="lbl_scan">Or scan barcode in store</h2>
+  <button class="btn btn-scan" id="scan">📷 Scan barcode</button>
+</div>
+
+<div class="lang">
+  <button onclick="setLang('en')">EN</button>
+  <button onclick="setLang('ru')">RU</button>
+  <button onclick="setLang('de')">DE</button>
+  <button onclick="setLang('es')">ES</button>
+  <button onclick="setLang('pl')">PL</button>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+<script src="app.js"></script>
+</body>
+</html>
