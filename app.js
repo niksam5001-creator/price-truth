@@ -160,3 +160,6 @@ async function startScan() {
   }, 500);
 }
 document.getElementById('scan').addEventListener('click', startScan);
+L.en.share_app="Share Price Truth";L.ru.share_app="Поделиться Price Truth";L.de.share_app="Price Truth teilen";L.es.share_app="Compartir Price Truth";L.pl.share_app="Udostępnij Price Truth";
+function shareApp(){const url='https://niksam5001-creator.github.io/price-truth/';if(navigator.share){navigator.share({title:'Price Truth',text:L[lang].tagline,url:url}).catch(()=>{});}else{navigator.clipboard.writeText(url);alert(L[lang].copied);}}
+(function(){const el=document.createElement('div');el.style.cssText='margin:12px auto;max-width:560px;padding:0 12px';el.innerHTML='<button style="width:100%;background:#25d366;color:#fff;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700" onclick="shareApp()">📤 <span id="shareAppText"></span></button>';const sup=document.getElementById('supportBar');sup.parentNode.insertBefore(el,sup);const upd=()=>{document.getElementById('shareAppText').textContent=L[lang].share_app;};upd();const orig=window.setLang;window.setLang=function(l){orig(l);upd();};})();
