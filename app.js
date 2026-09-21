@@ -191,3 +191,38 @@ function renderReal(price,full,name){
   v.className='verdict good';
   v.innerHTML='<div class="big">💰 Wildberries: '+price+' RUB</div>'+(disc>0?'<div>🔥 Скидка: −'+disc+' RUB (было '+full+' RUB)</div>':'<div>Цена без скидки</div>')+'<div style="margin:8px 0;font-size:14px">'+name+'</div><div style="margin:10px 0 2px;font-weight:700">Где дешевле — проверить:</div>'+buys+'<button class="btn" style="background:#25d366" onclick="shareApp()">📤 '+t.share_app+'</button>';
 }
+const _oldDS = window.detectStore;
+window.detectStore = function(url){
+  if(url.includes('wildberries.by')) return {name:'Wildberries BY', cur:'BYN'};
+  return _oldDS(url);
+};
+function renderReal(price,full,name,cur){
+  cur=cur||'RUB';
+  const t=L[lang];const v=document.getElementById('verdict');
+  const disc=full-price;
+  const q=encodeURIComponent(name);
+  const shops=['Ozon','Yandex Market','DNS','AliExpress'];
+  const buys=shops.filter(s=>BUY[s]).map(s=>'<a class="btn share" style="display:block;text-align:center;text-decoration:none;margin:6px 0" target="_blank" href="'+BUY[s](q)+'">🔎 '+s+'</a>').join('');
+  v.className='verdict good';
+  v.innerHTML='<div class="big">💰 Wildberries: '+price+' '+cur+'</div>'+(disc>0?'<div>🔥 Скидка: −'+disc+' '+cur+' (было '+full+' '+cur+')</div>':'<div>Цена без скидки</div>')+'<div style="margin:8px 0;font-size:14px">'+name+'</div><div style="margin:10px 0 2px;font-weight:700">Где дешевле — проверить:</div>'+buys+'<button class="btn" style="background:#25d366" onclick="shareApp()">📤 '+t.share_app+'</button>';
+}
+const _oldCheck2 = window.checkLink;
+window.checkLink = async function(){
+  const url=document.getElementById('link').value.trim();
+  const v=document.getElementById('verdict');
+  if(!url)return;
+  lastUrl=url;
+  v.style.display='block';v.className='verdict';v.innerHTML='⏳ ...';
+  const wb=url.match(/wildberries\.(ru|by)\/catalog\/(\d+)/);
+  if(wb){
+    const by=wb[1]==='by';
+    try{
+      const api='https://card.wb.ru/cards/v1/detail?app=web&dest='+(by?-25202:-1257786)+'&spp=30&nm='+wb[2];
+      const r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(api));
+      const j=await r.json();
+      const p=j&&j.data&&j.data.products&&j.data.products[0];
+      if(p){renderReal(Math.round((p.salePriceU||p.priceU)/100),Math.round(p.priceU/100),(p.brand?p.brand+' ':'')+p.name,by?'BYN':'RUB');return;}
+    }catch(e){}
+  }
+  await _oldCheck2();
+};
