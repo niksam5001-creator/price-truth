@@ -163,3 +163,31 @@ document.getElementById('scan').addEventListener('click', startScan);
 L.en.share_app="Share Price Truth";L.ru.share_app="Поделиться Price Truth";L.de.share_app="Price Truth teilen";L.es.share_app="Compartir Price Truth";L.pl.share_app="Udostępnij Price Truth";
 function shareApp(){const url='https://niksam5001-creator.github.io/price-truth/';if(navigator.share){navigator.share({title:'Price Truth',text:L[lang].tagline,url:url}).catch(()=>{});}else{navigator.clipboard.writeText(url);alert(L[lang].copied);}}
 (function(){const el=document.createElement('div');el.style.cssText='margin:12px auto;max-width:560px;padding:0 12px';el.innerHTML='<button style="width:100%;background:#25d366;color:#fff;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:700" onclick="shareApp()">📤 <span id="shareAppText"></span></button>';const sup=document.getElementById('supportBar');sup.parentNode.insertBefore(el,sup);const upd=()=>{document.getElementById('shareAppText').textContent=L[lang].share_app;};upd();const orig=window.setLang;window.setLang=function(l){orig(l);upd();};})();
+const _oldCheck = window.checkLink;
+window.checkLink = async function(){
+  const url=document.getElementById('link').value.trim();
+  const v=document.getElementById('verdict');
+  if(!url)return;
+  lastUrl=url;
+  v.style.display='block';v.className='verdict';v.innerHTML='⏳ ...';
+  const wb=url.match(/wildberries\.ru\/catalog\/(\d+)/);
+  if(wb){
+    try{
+      const api='https://card.wb.ru/cards/v1/detail?app=web&dest=-1257786&spp=30&nm='+wb[1];
+      const r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(api));
+      const j=await r.json();
+      const p=j&&j.data&&j.data.products&&j.data.products[0];
+      if(p){renderReal(Math.round((p.salePriceU||p.priceU)/100),Math.round(p.priceU/100),(p.brand?p.brand+' ':'')+p.name);return;}
+    }catch(e){}
+  }
+  await _oldCheck();
+};
+function renderReal(price,full,name){
+  const t=L[lang];const v=document.getElementById('verdict');
+  const disc=full-price;
+  const q=encodeURIComponent(name);
+  const shops=['Ozon','Yandex Market','DNS','AliExpress'];
+  const buys=shops.filter(s=>BUY[s]).map(s=>'<a class="btn share" style="display:block;text-align:center;text-decoration:none;margin:6px 0" target="_blank" href="'+BUY[s](q)+'">🔎 '+s+'</a>').join('');
+  v.className='verdict good';
+  v.innerHTML='<div class="big">💰 Wildberries: '+price+' RUB</div>'+(disc>0?'<div>🔥 Скидка: −'+disc+' RUB (было '+full+' RUB)</div>':'<div>Цена без скидки</div>')+'<div style="margin:8px 0;font-size:14px">'+name+'</div><div style="margin:10px 0 2px;font-weight:700">Где дешевле — проверить:</div>'+buys+'<button class="btn" style="background:#25d366" onclick="shareApp()">📤 '+t.share_app+'</button>';
+}
