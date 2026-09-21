@@ -38,7 +38,7 @@ const BUY = {
   'Allegro': q => 'https://allegro.pl/listing?string=' + q,
   'eBay': q => 'https://www.ebay.com/sch/i.html?_nkw=' + q
 };
-const DONATE = 'USDT_TRC20_PLACEHOLDER';
+const DONATE = 'TKUBiR3RhFCQdbb24Jzi217y72d8i3CBCy';
 let lastUrl = '';
 
 function productQuery(url) {
