@@ -1,71 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#4CAF50">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Price Truth — know the real price</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Price Truth</title>
+<link rel="manifest" href="manifest.webmanifest?v=4">
+<meta name="theme-color" content="#1a5f3f">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; min-height: 100vh; }
-  .header { background: linear-gradient(135deg, #4CAF50, #2e7d32); color: #fff; padding: 28px 20px; text-align: center; }
-  .header h1 { font-size: 26px; }
-  .header p { opacity: .9; margin-top: 6px; font-size: 14px; }
-  .install { display:none; margin: 10px 16px 0; padding: 10px; background: #fff3cd; border-radius: 8px; text-align:center; font-size: 14px; }
-  .install button { background: #4CAF50; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; margin-left: 8px; }
-  .card { background: #fff; margin: 16px; border-radius: 14px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
-  .card h2 { font-size: 16px; margin-bottom: 12px; color: #333; }
-  input[type=url] { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; }
-  input:focus { border-color: #4CAF50; outline: none; }
-  .btn { display: block; width: 100%; margin-top: 12px; padding: 15px; border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; }
-  .btn-green { background: #4CAF50; color: #fff; }
-  .btn-scan { background: #2196F3; color: #fff; }
-  .verdict { display: none; margin-top: 16px; padding: 16px; border-radius: 10px; }
-  .verdict.bad { background: #fff3cd; border-left: 5px solid #ffc107; }
-  .verdict.good { background: #d4edda; border-left: 5px solid #28a745; }
-  .verdict .big { font-size: 22px; font-weight: 700; }
-  .stores { margin-top: 12px; }
-  .stores div { background: #f8f9fa; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; font-size: 15px; }
-  .share { margin-top: 12px; background: #2196F3; color: #fff; }
-  .lang { text-align: center; padding: 10px; }
-  .lang button { background: none; border: 1px solid #ccc; border-radius: 6px; margin: 2px; padding: 4px 8px; font-size: 12px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,sans-serif;background:#e8f5e9;color:#1a5f3f;padding:16px;min-height:100vh}
+.container{max-width:560px;margin:0 auto}
+h1{font-size:28px;text-align:center;margin:12px 0}
+.tagline{text-align:center;color:#2e7d5a;margin-bottom:20px;font-size:15px}
+.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:16px}
+label{font-size:14px;color:#555;display:block;margin-bottom:6px}
+input{width:100%;padding:13px;border:2px solid #c8e6c9;border-radius:12px;font-size:16px;outline:none}
+input:focus{border-color:#4caf50}
+.btn{width:100%;padding:14px;background:#4caf50;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;margin-top:10px;cursor:pointer}
+.btn:active{background:#388e3c}
+.btn.share{background:#2196f3;margin-top:10px}
+.btn.share:active{background:#1976d2}
+.divider{text-align:center;margin:14px 0;color:#777;font-size:13px}
+.verdict{display:none;padding:16px;border-radius:16px;margin-top:16px;text-align:center}
+.verdict.bad{background:#ffebee;border:2px solid #ef5350}
+.verdict.good{background:#e8f5e9;border:2px solid #4caf50}
+.big{font-size:22px;font-weight:700;margin-bottom:6px}
+.stores{margin-top:14px;text-align:left}
+.stores>div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+.stores b{color:#1a5f3f}
+.langs{display:flex;justify-content:center;gap:8px;margin:14px 0}
+.langs button{padding:6px 12px;background:#fff;border:1px solid #c8e6c9;border-radius:8px;cursor:pointer;font-size:13px}
+.langs .on{background:#4caf50;color:#fff;border-color:#4caf50}
+#installBar{display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:12px;padding:12px;margin:14px 0;text-align:center}
+#installBar button{background:#ffc107;color:#000;border:none;padding:8px 14px;border-radius:8px;font-weight:700}
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>💰 Price Truth</h1>
-  <p id="tagline">Know the real price before you buy</p>
+<div class="container">
+<h1>💰 Price Truth</h1>
+<div class="tagline" id="tagline">Узнай реальную цену до покупки</div>
+<div class="langs">
+<button class="on" onclick="setLang('ru')">RU</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('de')">DE</button>
+<button onclick="setLang('es')">ES</button>
+<button onclick="setLang('pl')">PL</button>
 </div>
-<div class="install" id="installBar">📲 <span id="installText">Install as app</span><button onclick="installApp()">Install</button></div>
-
 <div class="card">
-  <h2 id="lbl_link">Paste product link</h2>
-  <input type="url" id="link" placeholder="https://wildberries.ru/... или amazon.com/...">
-  <button class="btn btn-green" id="check" onclick="checkLink()">Check price</button>
-  <div class="verdict" id="verdict"></div>
+<label id="lbl_link">Вставь ссылку на товар</label>
+<input id="link" placeholder="https://wildberries.ru/..." inputmode="url">
+<button class="btn" id="check" onclick="checkLink()">Проверить цену</button>
+<div class="divider" id="lbl_scan">Или отсканируй штрихкод в магазине</div>
+<button class="btn" id="scan" style="background:#667eea">📷 Сканировать</button>
 </div>
-
-<div class="card">
-  <h2 id="lbl_scan">Or scan barcode in store</h2>
-  <button class="btn btn-scan" id="scan">📷 Scan barcode</button>
+<div id="verdict" class="verdict"></div>
+<div id="installBar">
+<div id="installText" style="margin-bottom:8px">Установить как приложение</div>
+<button onclick="installApp()">Install</button>
 </div>
-
-<div class="lang">
-  <button onclick="setLang('en')">EN</button>
-  <button onclick="setLang('ru')">RU</button>
-  <button onclick="setLang('de')">DE</button>
-  <button onclick="setLang('es')">ES</button>
-  <button onclick="setLang('pl')">PL</button>
 </div>
-
+<script src="app.js?v=4"></script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.register('sw.js?v=4', {updateViaCache: 'none'}).then(reg => {
+    setInterval(() => reg.update(), 30000);
+  });
+  navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
 }
 </script>
-<script src="app.js"></script>
 </body>
 </html>
